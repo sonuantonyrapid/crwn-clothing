@@ -32,6 +32,8 @@ class SignUp extends Component{
 
             await createUserProfileDocument({...user,displayName:this.state.displayName});
 
+            alert('signed up successfully');
+
             this.setState({
                 displayName:'',
                 email:'',

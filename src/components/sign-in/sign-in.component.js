@@ -6,7 +6,7 @@ import FormInput from "../form-input/form-input.component";
 
 import CustonButton from "../custom-button/custom-button.component";
 
-import { signInWithGoogle } from "../../fiebase/fiebase.utils";
+import { auth, signInWithGoogle } from "../../fiebase/fiebase.utils";
 
 
 class SignIn extends Component {
@@ -16,10 +16,28 @@ class SignIn extends Component {
         'password':''
     }
 
-    submitHandler = (event) => {
+    submitHandler = async (event) => {
 
         event.preventDefault();
-        alert('hello');
+
+        try{
+
+            await auth.signInWithEmailAndPassword(this.state.email,this.state.password);
+
+            alert('signed in successfully');
+
+            this.setState({
+                'email':'',
+                'password':''
+            });
+
+        }
+        catch(error){
+
+            console.log(error);
+
+        }
+        
 
     };
 
