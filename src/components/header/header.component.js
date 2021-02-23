@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "./header.styles.scss";
 import { ReactComponent as Logo } from "../../assets/images/crown.svg";
 
+import { auth } from "../../fiebase/fiebase.utils";
+
 const Header = props => {
 
     return (
@@ -18,6 +20,10 @@ const Header = props => {
             <Link className="option" to="/shop">
                 Contact
             </Link>
+            {
+            props.currentUser?<div className="option" onClick={() => auth.signOut()}>Sign out</div>:<Link className="option" to="/sign-in">Sign in</Link>
+            }
+            
         </div>
     </div>
     );

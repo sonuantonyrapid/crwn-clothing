@@ -6,6 +6,8 @@ import FormInput from "../form-input/form-input.component";
 
 import CustonButton from "../custom-button/custom-button.component";
 
+import { signInWithGoogle } from "../../fiebase/fiebase.utils";
+
 
 class SignIn extends Component {
 
@@ -40,9 +42,14 @@ class SignIn extends Component {
                 <form onSubmit={this.submitHandler}>
                     <FormInput key="form-email" label="Email" name="email" type="email" handelChange={this.changeHandler} value={this.state.email} required/>
                     <FormInput key="form-password" label="Password" name="password" type="password" handelChange={this.changeHandler} value={this.state.password} required/>
-                    <CustonButton type="submit">
-                        Sign in
-                    </CustonButton>
+                    <div className="buttons">
+                        <CustonButton type="submit">
+                            Sign in
+                        </CustonButton>
+                        <CustonButton onClick={signInWithGoogle} isGoogleSignIn>
+                            Sign in with google
+                        </CustonButton>
+                    </div>
                 </form>
             </div>
         );
