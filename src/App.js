@@ -1,6 +1,9 @@
 import React,{Component} from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import './App.css';
+
+import { connect } from "react-redux";
+import { setCurrentUser } from "./redux/user/user.actions";
 
 import Header from "./components/header/header.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
@@ -11,9 +14,9 @@ import { auth,createUserProfileDocument } from "./fiebase/fiebase.utils";
 
 class App extends Component {
 
-  state = {
-    currentUser:null
-  };
+  // state = {
+  //   currentUser:null
+  // };
 
   unsubscribeFromAuth = null;
 
@@ -29,20 +32,29 @@ class App extends Component {
 
         userRef.onSnapshot(snapShot=>{
 
-          this.setState({
-            currentUser:{
+          this.props.setCurrentUser(
+            {
               id:snapShot.id,
               ...snapShot.data()
             }
-          });
+          );
+
+          // this.setState({
+          //   currentUser:{
+          //     id:snapShot.id,
+          //     ...snapShot.data()
+          //   }
+          // });
 
         })
 
 
       }
       else{
+        
+        this.props.setCurrentUser(userAuth);
 
-        this.setState({currentUser:userAuth});
+        // this.setState({currentUser:userAuth});
 
       }
 
@@ -62,7 +74,8 @@ class App extends Component {
 
     return (
       <div>
-        <Header currentUser={this.state.currentUser}/>
+        {/* <Header currentUser={this.state.currentUser}/> */}
+        <Header/>
         <Switch>
           <Route exact path="/">
             <HomePage />
@@ -70,9 +83,12 @@ class App extends Component {
           <Route exact path="/shop">
             <ShopPage />
           </Route>
-          <Route exact path="/sign-in">
+          <Route exact path="/sign-in" render={()=>
+            this.props.currentUser ? (
+            <Redirect to="/"/>
+            ):(
             <SignInAndSignUp />
-          </Route>
+            )} />
         </Switch>
       </div>
     );
@@ -81,4 +97,23 @@ class App extends Component {
 
 }
 
-export default App;
+const mapStateToProps = state => {
+
+  return ({
+    currentUser: state.user.currentUser
+  });
+
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setCurrentUser: user => {
+
+      return dispatch(setCurrentUser(user));
+  
+    } 
+
+  }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
