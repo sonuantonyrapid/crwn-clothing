@@ -15,9 +15,9 @@ const CollectionPreview = props =>{
 
             return count <= 4;
 
-        }).map(({id,...products})=>{
+        }).map((item)=>{
 
-            return <CollectionItem key={`collection-item-${id}`} {...products} />
+            return <CollectionItem key={`collection-item-${item.id}`} item={item} />
 
         });
 

@@ -8,6 +8,9 @@ import { ReactComponent as Logo } from "../../assets/images/crown.svg";
 
 import { auth } from "../../fiebase/fiebase.utils";
 
+import CartIcon from "../cart-icon/cart-icon.component";
+
+
 const Header = props => {
 
     return (
@@ -25,7 +28,7 @@ const Header = props => {
             {
             props.currentUser?<div className="option" onClick={() => auth.signOut()}>Sign out</div>:<Link className="option" to="/sign-in">Sign in</Link>
             }
-            
+            <CartIcon />
         </div>
     </div>
     );
