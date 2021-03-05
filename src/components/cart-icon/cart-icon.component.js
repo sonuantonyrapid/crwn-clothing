@@ -9,15 +9,17 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { connect } from "react-redux";
 import { toggleCartHidden } from "../../redux/cart/cart.actions";
 
+import { selectCartItemsCount } from "../../redux/cart/cart.selector";
+
 const CartIcon = props => {
 
     return(
         <Fragment>
             <div className="cart-icon" onClick={props.toggleCartHidden}>
                 <ShoppingIcon className="shopping-icon" />
-                <span className="item-count">0</span>
+                <span className="item-count">{props.cartQuantity}</span>
             </div>
-            <CartDropdown cart={props.cart}/>
+            <CartDropdown cartToggle={props.cartToggle}/>
         </Fragment>
     );
 
@@ -35,7 +37,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state) => {
     return({
-        cart:state.cart
+        cartToggle:state.cart.hidden,
+        cartQuantity:selectCartItemsCount(state),
     });
 }
 

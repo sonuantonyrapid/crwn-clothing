@@ -1,4 +1,4 @@
-export const addItemToCart = (items,itemData) => {
+export const addItemToCart = (items,itemData,cartQuantity) => {
 
     let updatedItems = [];
     let itemId = '';
@@ -16,6 +16,7 @@ export const addItemToCart = (items,itemData) => {
         if(!find){
 
             updatedItems = [...items,{...itemData,quantity:1,totalPrice:itemData.price}];
+            cartQuantity += 1;
             
         }
         else{
@@ -35,6 +36,8 @@ export const addItemToCart = (items,itemData) => {
     
             updatedItems = [...items];
 
+            cartQuantity += 1;
+
         }
         
     }
@@ -42,12 +45,19 @@ export const addItemToCart = (items,itemData) => {
 
         updatedItems = [{...itemData,quantity:1,totalPrice:itemData.price}];
 
+        cartQuantity += 1;
+
 
     }
 
 
 
-    return updatedItems;
+    return {
+
+        cartItems: updatedItems,
+        cartQuantity: cartQuantity
+
+    };
 
    
 
