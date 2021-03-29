@@ -22,3 +22,16 @@ export const selectCartItemsCount = createSelector(
 
     }
 );
+
+export const cartToggle = createSelector(
+    selectCart,(cart)=>{
+        return cart.hidden;
+    }
+);
+
+export const cartPriceTotal = createSelector(
+    [selectCart],
+    (cart)=>{
+        return cart.cartPriceTotal;
+    }
+);

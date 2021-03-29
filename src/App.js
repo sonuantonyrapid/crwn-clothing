@@ -3,12 +3,15 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import './App.css';
 
 import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 import { setCurrentUser } from "./redux/user/user.actions";
+import { getCurrentUser } from "./redux/user/user.selector";
 
 import Header from "./components/header/header.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
+import CheckOutPage from "./pages/checkout/checkout.component";
 
 import { auth,createUserProfileDocument } from "./fiebase/fiebase.utils";
 
@@ -89,6 +92,9 @@ class App extends Component {
             ):(
             <SignInAndSignUp />
             )} />
+          <Route exact path="/checkout">
+            <CheckOutPage />
+          </Route>
         </Switch>
       </div>
     );
@@ -97,13 +103,11 @@ class App extends Component {
 
 }
 
-const mapStateToProps = state => {
-
-  return ({
-    currentUser: state.user.currentUser
-  });
-
-}
+const mapStateToProps = createStructuredSelector(
+  {
+    currentUser: getCurrentUser
+  }
+);
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -10,6 +10,8 @@ import { auth } from "../../fiebase/fiebase.utils";
 
 import CartIcon from "../cart-icon/cart-icon.component";
 
+import { getCurrentUser } from "../../redux/user/user.selector";
+
 
 const Header = props => {
 
@@ -39,7 +41,7 @@ const mapStateToProps = state => {
 
     return ({
 
-        currentUser: state.user.currentUser
+        currentUser: getCurrentUser(state)
 
     })
 
