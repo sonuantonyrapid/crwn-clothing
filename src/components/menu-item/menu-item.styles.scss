@@ -11,6 +11,7 @@
     position: relative;
     cursor: pointer;
 
+
     &:hover{
 
       & .img-back{
@@ -71,6 +72,11 @@
         font-size: 16px;
       }
     }
+  }
+
+  
+  .section-link{
+    display: contents;
   }
 
   .large{
