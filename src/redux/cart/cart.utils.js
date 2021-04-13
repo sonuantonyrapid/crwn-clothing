@@ -153,8 +153,8 @@ export const reduceItem = (itemId,items,cartTotalQuantity,cartTotalPrice)=>{
         return {
 
             reduceCartItems: items,
-            reduceCartQuantity: totalQuantity,
-            reduceCartPriceTotal:totalPrice
+            reduceCartQuantity: cartTotalQuantity,
+            reduceCartPriceTotal:cartTotalPrice
     
         };
 
