@@ -31,7 +31,7 @@ const CollectionItem = props => {
                         $ {props.item.price}
                     </span>
                 </div>
-                <CustomButton onClick={()=>addItemHandler(props.item)} inverted>Add to cart</CustomButton>
+                <CustomButton className="custom-button" onClick={()=>addItemHandler(props.item)} inverted>Add to cart</CustomButton>
             </div>
         </div>
     );

@@ -23,9 +23,9 @@ export const getCollection = createSelector(
 export const getCollectionsForPreview = createSelector(
     [getCollection],
     (Collections)=>{
-        return Object.keys(Collections).map(key=>{
+        return Collections?Object.keys(Collections).map(key=>{
             return Collections[key];
-        })
+        }):[];
     }
 );
 
@@ -35,7 +35,7 @@ export const selectCollection = memoize((collectionUrlParam)=>{
         [getCollection],
         (collections)=>{
 
-            return collections[collectionUrlParam];
+            return collections?collections[collectionUrlParam]:null;
 
         }
     );

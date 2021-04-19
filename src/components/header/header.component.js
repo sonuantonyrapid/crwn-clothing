@@ -1,10 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
-import "./header.styles.scss";
+// import "./header.styles.scss";
 import { ReactComponent as Logo } from "../../assets/images/crown.svg";
+
+import { HeaderContainer,LogoContainer,OptionsContainer,OptionLink } from "./header.styles";
 
 import { auth } from "../../fiebase/fiebase.utils";
 
@@ -16,23 +18,23 @@ import { getCurrentUser } from "../../redux/user/user.selector";
 const Header = props => {
 
     return (
-    <div className="header">
-        <Link className="logo-container" to="/">
+    <HeaderContainer>
+        <LogoContainer to="/">
             <Logo className="logo"/>
-        </Link>
-        <div className="options">
-            <Link className="option" to="/shop">
+        </LogoContainer>
+        <OptionsContainer>
+            <OptionLink to="/shop">
                 Shop
-            </Link>
-            <Link className="option" to="/shop">
+            </OptionLink>
+            <OptionLink to="/shop">
                 Contact
-            </Link>
+            </OptionLink>
             {
-            props.currentUser?<div className="option" onClick={() => auth.signOut()}>Sign out</div>:<Link className="option" to="/sign-in">Sign in</Link>
+            props.currentUser?<OptionLink as='div' onClick={() => auth.signOut()}>Sign out</OptionLink>:<OptionLink to="/sign-in">Sign in</OptionLink>
             }
             <CartIcon />
-        </div>
-    </div>
+        </OptionsContainer>
+    </HeaderContainer>
     );
 
 };

@@ -13,6 +13,8 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import CheckOutPage from "./pages/checkout/checkout.component";
 
+import { getCollectionsForPreview } from "./redux/shop/shop.selector";
+
 import { auth,createUserProfileDocument } from "./fiebase/fiebase.utils";
 
 class App extends Component {
@@ -103,7 +105,8 @@ class App extends Component {
 
 const mapStateToProps = createStructuredSelector(
   {
-    currentUser: getCurrentUser
+    currentUser: getCurrentUser,
+    collectionArray:getCollectionsForPreview
   }
 );
 
