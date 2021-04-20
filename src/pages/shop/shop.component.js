@@ -8,11 +8,17 @@ import {fireStore,convertCollectionsSpanshotToMap} from "../../fiebase/fiebase.u
 
 import CollectionOverview from "../../components/collection-overview/collection-overview.component";
 import CollectionPage from "../collection/collection.component";
+import WithSpinner from "../../components/with-spinner/with-spinner.component";
 
 
 // import SHOP_DATA from "../../redux/shop/shop.data";
 
 class ShopPage extends Component{
+
+    state = {
+        loading:true
+    };
+
 
     unsubscribeFromSnapshot = null;
 
@@ -24,9 +30,8 @@ class ShopPage extends Component{
 
             const collections = convertCollectionsSpanshotToMap(snapshot);
 
-            console.log(collections);
-
             this.props.updateCollections(collections);
+            this.setState({loading:false});
             
         });
 
@@ -34,12 +39,19 @@ class ShopPage extends Component{
 
     render(){
 
+        const CollectionOverviewWithSpinner = WithSpinner(CollectionOverview);
+        const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+
         const {match} = this.props;
 
         return (
             <div className="shop-page">
-                <Route exact path={match.path} component={CollectionOverview} />
-                <Route exact path={`${match.path}/:collectionId`} component={CollectionPage} />
+                <Route exact path={match.path} render={
+                    (props)=><CollectionOverviewWithSpinner isLoading={this.state.loading} {...props}/>
+                } />
+                <Route exact path={`${match.path}/:collectionId`} render={
+                    (props)=>(<CollectionPageWithSpinner isLoading={this.state.loading} {...props} />)
+                    } />
             </div>
         );
 
