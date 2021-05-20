@@ -4,7 +4,6 @@ import './App.css';
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { setCurrentUser } from "./redux/user/user.actions";
 import { getCurrentUser } from "./redux/user/user.selector";
 
 import Header from "./components/header/header.component";
@@ -15,65 +14,63 @@ import CheckOutPage from "./pages/checkout/checkout.component";
 
 import { getCollectionsForPreview } from "./redux/shop/shop.selector";
 
-import { auth,createUserProfileDocument } from "./fiebase/fiebase.utils";
-
 class App extends Component {
 
   // state = {
   //   currentUser:null
   // };
 
-  unsubscribeFromAuth = null;
+  // unsubscribeFromAuth = null;
 
-  componentDidMount(){
+  // componentDidMount(){
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{
-      // this.setState({currentUser:user});
-      // console.log(user);
+  //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{
+  //     // this.setState({currentUser:user});
+  //     // console.log(user);
 
-      if(userAuth){
+  //     if(userAuth){
 
-        const userRef = await createUserProfileDocument(userAuth);
+  //       const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot(snapShot=>{
+  //       userRef.onSnapshot(snapShot=>{
 
-          this.props.setCurrentUser(
-            {
-              id:snapShot.id,
-              ...snapShot.data()
-            }
-          );
+  //         this.props.setCurrentUser(
+  //           {
+  //             id:snapShot.id,
+  //             ...snapShot.data()
+  //           }
+  //         );
 
-          // this.setState({
-          //   currentUser:{
-          //     id:snapShot.id,
-          //     ...snapShot.data()
-          //   }
-          // });
+  //         // this.setState({
+  //         //   currentUser:{
+  //         //     id:snapShot.id,
+  //         //     ...snapShot.data()
+  //         //   }
+  //         // });
 
-        })
+  //       })
 
 
-      }
-      else{
+  //     }
+  //     else{
         
-        this.props.setCurrentUser(userAuth);
+  //       this.props.setCurrentUser(userAuth);
 
-        // this.setState({currentUser:userAuth});
+  //       // this.setState({currentUser:userAuth});
 
-      }
+  //     }
 
       
 
-    });
+  //   });
     
-  }
+  // }
 
-  componentWillUnmount(){
+  // componentWillUnmount(){
 
-    this.unsubscribeFromAuth();
+  //   this.unsubscribeFromAuth();
 
-  }
+  // }
 
   render(){
 
@@ -110,15 +107,4 @@ const mapStateToProps = createStructuredSelector(
   }
 );
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setCurrentUser: user => {
-
-      return dispatch(setCurrentUser(user));
-  
-    } 
-
-  }
-};
-
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
