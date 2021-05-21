@@ -1,12 +1,14 @@
 import React,{ Component } from "react";
+import { connect } from "react-redux";
 
 import "./sign-up.styles.scss";
 
 import FormInput from "../form-input/form-input.component";
 import CustonButton from "../custom-button/custom-button.component";
 
-import { auth,createUserProfileDocument } from "../../fiebase/fiebase.utils";
+// import { auth,createUserProfileDocument } from "../../fiebase/fiebase.utils";
 
+import { createUserStart } from "../../redux/user/user.actions";
 
 class SignUp extends Component{
 
@@ -26,27 +28,32 @@ class SignUp extends Component{
             return;
         }
 
-        try{
+        const { createUserStart } = this.props;
+        const { email,password,displayName } = this.state;
 
-            const {user} = await auth.createUserWithEmailAndPassword(this.state.email,this.state.password);
+        createUserStart({email,password,displayName});
 
-            await createUserProfileDocument({...user,displayName:this.state.displayName});
+        // try{
 
-            alert('signed up successfully');
+        //     const {user} = await auth.createUserWithEmailAndPassword(this.state.email,this.state.password);
 
-            this.setState({
-                displayName:'',
-                email:'',
-                password:'',
-                confirmPassword:''
-            });
+        //     await createUserProfileDocument({...user,displayName:this.state.displayName});
 
-        }
-        catch(error){
+        //     alert('signed up successfully');
 
-            console.error(error);
+        //     this.setState({
+        //         displayName:'',
+        //         email:'',
+        //         password:'',
+        //         confirmPassword:''
+        //     });
 
-        }
+        // }
+        // catch(error){
+
+        //     console.error(error);
+
+        // }
 
     };
 
@@ -76,4 +83,10 @@ class SignUp extends Component{
 
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => {
+    return {
+        createUserStart: (userDetails)=>dispatch(createUserStart(userDetails))
+    };
+}
+
+export default connect(null,mapDispatchToProps)(SignUp);

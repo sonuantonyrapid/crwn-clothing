@@ -1,5 +1,21 @@
 import userActionTypes from "./user.action.types";
 
+export const createUserStart = (userDetails) => {
+    return ({
+        type:userActionTypes.CREATE_USER_START,
+        payload: userDetails
+    });
+}
+
+export const signUpFailure = (error) => {
+    return (
+        {
+            type: userActionTypes.SIGN_UP_FAILURE,
+            payload:error
+        }
+    );
+};
+
 export const googleSignInStart = () => {
     return ({
         type:userActionTypes.GOOGLE_SIGN_IN_START,
@@ -64,4 +80,7 @@ export const signOutFailure = (error) => {
         }
     );
 };
+
+
+
 

@@ -4,7 +4,7 @@ import { auth,GoogleProvider,createUserProfileDocument,getCurrentUser } from "..
 
 import userActionTypes from "./user.action.types";
 
-import { signInSuccess,signInFailure,signOutSuccess,signOutFailure } from "./user.actions";
+import { signInSuccess,signInFailure,signOutSuccess,signOutFailure,signUpFailure } from "./user.actions";
 
 export function* snapshotFromUserAuth(userAuth){
     try{
@@ -76,11 +76,33 @@ export function* onSignOutStart(){
     yield takeLatest(userActionTypes.SIGN_OUT_START,signOut);
 }
 
+export function* createUser({payload}){
+    try{
+
+        const {email,password,displayName} = payload;
+
+        const {user} = yield auth.createUserWithEmailAndPassword(email,password);
+
+        yield snapshotFromUserAuth({...user,displayName:displayName});
+
+    }
+    catch(error){
+
+        yield put(signUpFailure(error.message));
+
+    }
+}
+
+export function* onCreateUserStart(){
+    yield takeLatest(userActionTypes.CREATE_USER_START,createUser);
+}
+
 export function* userSagas(){
     yield all([
         call(onGoogleSignInStart),
         call(onEmailSignInStart),
         call(onCheckUserSession),
-        call(onSignOutStart)
+        call(onSignOutStart),
+        call(onCreateUserStart)
     ]);
 }
