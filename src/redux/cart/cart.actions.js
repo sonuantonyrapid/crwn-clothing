@@ -40,9 +40,13 @@ export const removeFromCart = (ItemId) => {
         type: cartActionTypes.REMOVE_FROM_CART,
         payload: ItemId
     }
-
-
     
+}
+
+export const clearCart = () => {
+    return {
+        type: cartActionTypes.CLEAR_CART,
+    }
 }
 
 

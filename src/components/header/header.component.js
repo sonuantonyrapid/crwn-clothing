@@ -8,14 +8,16 @@ import { ReactComponent as Logo } from "../../assets/images/crown.svg";
 
 import { HeaderContainer,LogoContainer,OptionsContainer,OptionLink } from "./header.styles";
 
-import { auth } from "../../fiebase/fiebase.utils";
-
 import CartIcon from "../cart-icon/cart-icon.component";
 
 import { getCurrentUser } from "../../redux/user/user.selector";
 
+import { signOutStart } from "../../redux/user/user.actions";
+
 
 const Header = props => {
+
+    const { signOutStart } = props;
 
     return (
     <HeaderContainer>
@@ -30,7 +32,7 @@ const Header = props => {
                 Contact
             </OptionLink>
             {
-            props.currentUser?<OptionLink as='div' onClick={() => auth.signOut()}>Sign out</OptionLink>:<OptionLink to="/sign-in">Sign in</OptionLink>
+            props.currentUser?<OptionLink as='div' onClick={signOutStart}>Sign out</OptionLink>:<OptionLink to="/sign-in">Sign in</OptionLink>
             }
             <CartIcon />
         </OptionsContainer>
@@ -49,4 +51,10 @@ const mapStateToProps = state => {
 
 }
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => {
+    return {
+        signOutStart:()=>dispatch(signOutStart()),
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header);

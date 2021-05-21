@@ -30,3 +30,38 @@ export const signInFailure = error => {
         }
     );
 };
+
+
+export const checkUserSession = () => {
+    return (
+        {
+            type: userActionTypes.CHECK_USER_SESSION
+        }
+    );
+};
+
+export const signOutStart = () => {
+    return (
+        {
+            type: userActionTypes.SIGN_OUT_START
+        }
+    );
+};
+
+export const signOutSuccess = () => {
+    return (
+        {
+            type: userActionTypes.SIGN_OUT_SUCCESS
+        }
+    );
+};
+
+export const signOutFailure = (error) => {
+    return (
+        {
+            type: userActionTypes.SIGN_OUT_FAILURE,
+            payload:error
+        }
+    );
+};
+

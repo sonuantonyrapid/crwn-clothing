@@ -13,6 +13,7 @@ import ShopPage from "./pages/shop/shop.component";
 import CheckOutPage from "./pages/checkout/checkout.component";
 
 import { getCollectionsForPreview } from "./redux/shop/shop.selector";
+import { checkUserSession } from "./redux/user/user.actions";
 
 class App extends Component {
 
@@ -22,7 +23,9 @@ class App extends Component {
 
   // unsubscribeFromAuth = null;
 
-  // componentDidMount(){
+  componentDidMount(){
+    this.props.checkUserSession();
+  }
 
   //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{
   //     // this.setState({currentUser:user});
@@ -107,4 +110,10 @@ const mapStateToProps = createStructuredSelector(
   }
 );
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    checkUserSession: ()=>dispatch(checkUserSession()),
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
