@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import "./sign-in.style.scss";
@@ -10,42 +10,42 @@ import CustonButton from "../custom-button/custom-button.component";
 import { googleSignInStart,emailSignInStart } from "../../redux/user/user.actions";
 
 
-class SignIn extends Component {
+const SignIn = (props) => {
 
-    state = {
-        'email':'',
-        'password':''
-    }
+    const [signInInfo,setSignInInfo] = useState({
+        email:'',
+        password:''
+    });
 
-    submitHandler = async (event) => {
+    const { googleSignInStart,emailSignInStart } = props;
+    const { email,password } = signInInfo;
+  
+
+    const submitHandler = async (event) => {
         event.preventDefault();
-        this.props.emailSignInStart({
-            email:this.state.email,
-            password:this.state.password
-        });
+        emailSignInStart({ email,password });
     };
 
-    changeHandler = (event) =>{
+    const changeHandler = (event) =>{
 
         let value = event.target.value;
 
         value = value.trim();
 
-        this.setState({[event.target.name]:value});
+        setSignInInfo(previousState=>({
+            ...previousState,
+            [event.target.name]:value
+        }));
 
-    }
-
-    render() {
-        
-        const {googleSignInStart} = this.props;
+    }  
 
         return(
             <div className="sign-in">
                 <h2>I already have an account</h2>
                 <span>Sign in with your email and password</span>
-                <form onSubmit={this.submitHandler}>
-                    <FormInput key="form-email" label="Email" name="email" type="email" handelChange={this.changeHandler} value={this.state.email} required/>
-                    <FormInput key="form-password" label="Password" name="password" type="password" handelChange={this.changeHandler} value={this.state.password} required/>
+                <form onSubmit={submitHandler}>
+                    <FormInput key="form-email" label="Email" name="email" type="email" handelChange={changeHandler} value={email} required/>
+                    <FormInput key="form-password" label="Password" name="password" type="password" handelChange={changeHandler} value={password} required/>
                     <div className="buttons">
                         <CustonButton type="submit">
                             Sign in
@@ -57,8 +57,6 @@ class SignIn extends Component {
                 </form>
             </div>
         );
-       
-    }
 
 }
 

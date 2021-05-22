@@ -1,4 +1,4 @@
-import React,{ Component } from "react";
+import React,{ useState } from "react";
 import { connect } from "react-redux";
 
 import "./sign-up.styles.scss";
@@ -10,38 +10,38 @@ import CustonButton from "../custom-button/custom-button.component";
 
 import { createUserStart } from "../../redux/user/user.actions";
 
-class SignUp extends Component{
+const SignUp = (props) => {
 
-    state = {
+    const [userDetails,setUserDetails] = useState({
         displayName:'',
         email:'',
         password:'',
         confirmPassword:''
-    };
+    });
 
-    handleSubmit = async event=>{
+    const { createUserStart } = props;
+    const { displayName,email,password,confirmPassword } = userDetails;
+
+    const handleSubmit = async event=>{
 
         event.preventDefault();
 
-        if(this.state.password !== this.state.confirmPassword){
+        if(password !== confirmPassword){
             alert("Passwords don't match!");
             return;
         }
-
-        const { createUserStart } = this.props;
-        const { email,password,displayName } = this.state;
 
         createUserStart({email,password,displayName});
 
         // try{
 
-        //     const {user} = await auth.createUserWithEmailAndPassword(this.state.email,this.state.password);
+        //     const {user} = await auth.createUserWithEmailAndPassword(state.email,state.password);
 
-        //     await createUserProfileDocument({...user,displayName:this.state.displayName});
+        //     await createUserProfileDocument({...user,displayName:state.displayName});
 
         //     alert('signed up successfully');
 
-        //     this.setState({
+        //     setState({
         //         displayName:'',
         //         email:'',
         //         password:'',
@@ -57,29 +57,28 @@ class SignUp extends Component{
 
     };
 
-    changeHandler = event=>{
+    const changeHandler = event=>{
         const {name,value} = event.target;
 
-        this.setState({[name]:value.trim()});
+        setUserDetails(previousState=>({
+            ...previousState,
+            [name]:value.trim()
+            }));
     }
-
-    render(){
 
         return (
             <div className="sign-up">
                 <h2 className="title">I do not have a account</h2>
                 <span>Sign up with email and password</span>
-                <form className="sign-up-form" onSubmit={this.handleSubmit}>
-                <FormInput key="sign-up-name" label="Name" name="displayName" type="text" handelChange={this.changeHandler} value={this.state.displayName} required/>
-                <FormInput key="sign-up-email" label="Email" name="email" type="email" handelChange={this.changeHandler} value={this.state.email} required/>
-                <FormInput key="sign-up-pass" label="Password" name="password" type="password" handelChange={this.changeHandler} value={this.state.password} required/>
-                <FormInput key="sign-up-rpass" label="Confirm password" name="confirmPassword" type="password" handelChange={this.changeHandler} value={this.state.confirmPassword} required/>
+                <form className="sign-up-form" onSubmit={handleSubmit}>
+                <FormInput key="sign-up-name" label="Name" name="displayName" type="text" handelChange={changeHandler} value={displayName} required/>
+                <FormInput key="sign-up-email" label="Email" name="email" type="email" handelChange={changeHandler} value={email} required/>
+                <FormInput key="sign-up-pass" label="Password" name="password" type="password" handelChange={changeHandler} value={password} required/>
+                <FormInput key="sign-up-rpass" label="Confirm password" name="confirmPassword" type="password" handelChange={changeHandler} value={confirmPassword} required/>
                 <CustonButton type="submit">SIGN UP</CustonButton>
                 </form>
             </div>
         );
-
-    }
 
 }
 
